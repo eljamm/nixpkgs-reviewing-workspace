@@ -1,11 +1,7 @@
 name: 🤖👌🤖
 on: pull_request
 
-permissions:
-  contents: write
-  pull-requests: write
-  # checks: read # For private repositories
-  # actions: read # For private repositories
+permissions: {}
 
 jobs:
   judge-dependabot:
@@ -41,6 +37,11 @@ jobs:
         env:
           PR_URL: ${{ github.event.pull_request.html_url }}
           GITHUB_TOKEN: ${{ github.token }}
+    permissions:
+      contents: write
+      pull-requests: write
+      # checks: read # For private repositories
+      # actions: read # For private repositories
 
   # Avoid `automerge` renovate official feature.
   #   It wait longtime to be merged.
@@ -64,6 +65,11 @@ jobs:
         env:
           PR_URL: ${{ github.event.pull_request.html_url }}
           GITHUB_TOKEN: ${{ github.token }}
+    permissions:
+      contents: write
+      pull-requests: write
+      # checks: read # For private repositories
+      # actions: read # For private repositories
 
   selfup-runner:
     timeout-minutes: 30
@@ -80,3 +86,8 @@ jobs:
         env:
           PR_URL: ${{ github.event.pull_request.html_url }}
           GITHUB_TOKEN: ${{ github.token }}
+    permissions:
+      contents: write
+      pull-requests: write
+      # checks: read # For private repositories
+      # actions: read # For private repositories

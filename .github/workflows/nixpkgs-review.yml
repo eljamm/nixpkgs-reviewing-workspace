@@ -32,6 +32,7 @@ jobs:
       - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
         with:
           repository: 'NixOS/nixpkgs'
+          persist-credentials: false
 
       - uses: DeterminateSystems/nix-installer-action@e50d5f73bfe71c2dd0aa4218de8f4afa59f8f81d # v16
       # Don't add DeterminateSystems/magic-nix-cache-action in this workflow. Caching is not reasonable for this use
@@ -46,9 +47,10 @@ jobs:
         env:
           # https://github.com/Mic92/nixpkgs-review/blob/055465e55d131ffb1e1617f46d3bade0b87bbe69/README.md?plain=1#L239-L260
           GITHUB_TOKEN: '${{ github.token }}'
+          PR_NUMBER: '${{ inputs.pr-number }}'
         run: | # shell
           #
-          nix run 'github:NixOS/nixpkgs/nixpkgs-unstable#nixpkgs-review' -- pr '${{ inputs.pr-number }}' --print-result --eval local
+          nix run 'github:NixOS/nixpkgs/nixpkgs-unstable#nixpkgs-review' -- pr "${PR_NUMBER}" --print-result --eval local
 
       - name: Upload artifact
         uses: actions/upload-artifact@6f51ac03b9356f520e9adb1b1b7802705f340c2b # v4.5.0
@@ -81,6 +83,7 @@ jobs:
       - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
         with:
           repository: 'NixOS/nixpkgs'
+          persist-credentials: false
 
       - uses: cachix/install-nix-action@08dcb3a5e62fa31e2da3d490afc4176ef55ecd72 # v30
 
@@ -94,9 +97,10 @@ jobs:
         env:
           # https://github.com/Mic92/nixpkgs-review/blob/055465e55d131ffb1e1617f46d3bade0b87bbe69/README.md?plain=1#L239-L260
           GITHUB_TOKEN: '${{ github.token }}'
+          PR_NUMBER: '${{ inputs.pr-number }}'
         run: | # shell
           #
-          nix run 'github:NixOS/nixpkgs/nixpkgs-unstable#nixpkgs-review' -- pr '${{ inputs.pr-number }}' --print-result --eval local
+          nix run 'github:NixOS/nixpkgs/nixpkgs-unstable#nixpkgs-review' -- pr "${PR_NUMBER}" --print-result --eval local
 
       - name: Upload artifact
         uses: actions/upload-artifact@6f51ac03b9356f520e9adb1b1b7802705f340c2b # v4.5.0
