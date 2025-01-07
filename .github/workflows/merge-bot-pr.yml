@@ -30,7 +30,7 @@ jobs:
       - name: Wait other jobs
         uses: kachick/wait-other-jobs@v3
         with:
-          skip-same-workflow: 'true'
+          skip-same-workflow: "true"
         timeout-minutes: 10
       - name: Approve and merge
         run: gh pr review --approve "$PR_URL" && gh pr merge --auto --squash --delete-branch "$PR_URL"
@@ -58,7 +58,7 @@ jobs:
       - name: Wait other jobs
         uses: kachick/wait-other-jobs@v3
         with:
-          skip-same-workflow: 'true'
+          skip-same-workflow: "true"
         timeout-minutes: 10
       - name: Approve and merge
         run: gh pr review --approve "$PR_URL" && gh pr merge --auto --squash --delete-branch "$PR_URL"
@@ -79,7 +79,7 @@ jobs:
       - name: Wait other jobs
         uses: kachick/wait-other-jobs@v3
         with:
-          skip-same-workflow: 'true'
+          skip-same-workflow: "true"
         timeout-minutes: 20
       - name: Approve and merge
         run: gh pr review --approve "$PR_URL" && gh pr merge --auto --delete-branch --squash "$PR_URL"
