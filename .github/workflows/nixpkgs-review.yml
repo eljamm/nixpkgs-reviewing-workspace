@@ -10,7 +10,7 @@ on:
 
 # WARN: Caching packages might not be reasonable for this usecase
 jobs:
-  review-with-DeterminateSystems:
+  nixpkgs-review:
     strategy:
       fail-fast: false
       matrix:
@@ -64,6 +64,6 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@6f51ac03b9356f520e9adb1b1b7802705f340c2b # v4.5.0
         with:
-          name: "nixpkgs-review-DeterminateSystems-files-pr-${{ inputs.pr-number }}-${{ runner.arch }}-${{ runner.os }}"
+          name: "nixpkgs-review-files-pr-${{ inputs.pr-number }}-${{ runner.arch }}-${{ runner.os }}"
           path: "${{ steps.get-meta.outputs.cache_dir }}/nixpkgs-review/"
           if-no-files-found: "error"
