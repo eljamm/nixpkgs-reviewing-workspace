@@ -35,7 +35,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: nixpkgs
-          key: ${{ runner.os }}-nixpkgs
+          key: ${{ runner.os }}-${{ runner.arch }}-nixpkgs
 
       - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
         if: steps.cache-nixpkgs.outputs.cache-hit != 'true'
