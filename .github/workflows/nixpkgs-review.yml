@@ -29,9 +29,18 @@ jobs:
           # https://github.com/Mic92/nixpkgs-review/blob/055465e55d131ffb1e1617f46d3bade0b87bbe69/nixpkgs_review/builddir.py#L24-L36
           echo "cache_dir=${XDG_CACHE_HOME:-${HOME}/.cache}" | tee -a "$GITHUB_OUTPUT"
 
+      - name: Cache Nixpkgs
+        id: cache-nixpkgs
+        uses: actions/cache@v4
+        with:
+          path: nixpkgs
+          key: ${{ runner.os }}-nixpkgs
+
       - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+        if: steps.cache-nixpkgs.outputs.cache-hit != 'true'
         with:
           repository: "NixOS/nixpkgs"
+          path: nixpkgs
           persist-credentials: false
 
       - uses: DeterminateSystems/nix-installer-action@e50d5f73bfe71c2dd0aa4218de8f4afa59f8f81d # v16
