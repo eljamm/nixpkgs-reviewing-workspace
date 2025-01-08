@@ -50,7 +50,7 @@ jobs:
           PR_NUMBER: "${{ inputs.pr-number }}"
         run: | # shell
           #
-          nix run 'github:NixOS/nixpkgs/nixpkgs-unstable#nixpkgs-review' -- pr "${PR_NUMBER}" --print-result --eval local
+          nix run 'github:NixOS/nixpkgs/nixpkgs-unstable#nixpkgs-review' -- pr "${PR_NUMBER}" --print-result
 
       - name: Upload artifact
         uses: actions/upload-artifact@6f51ac03b9356f520e9adb1b1b7802705f340c2b # v4.5.0
@@ -100,7 +100,7 @@ jobs:
           PR_NUMBER: "${{ inputs.pr-number }}"
         run: | # shell
           #
-          nix run 'github:NixOS/nixpkgs/nixpkgs-unstable#nixpkgs-review' -- pr "${PR_NUMBER}" --print-result --eval local
+          nix run 'github:NixOS/nixpkgs/nixpkgs-unstable#nixpkgs-review' -- pr "${PR_NUMBER}" --print-result
 
       - name: Upload artifact
         uses: actions/upload-artifact@6f51ac03b9356f520e9adb1b1b7802705f340c2b # v4.5.0
