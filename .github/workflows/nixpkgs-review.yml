@@ -8,6 +8,7 @@ on:
         required: true
         type: number
 
+# WARN: Caching packages might not be reasonable for this usecase
 jobs:
   review-with-DeterminateSystems:
     strategy:
@@ -44,14 +45,12 @@ jobs:
           persist-credentials: false
 
       - uses: DeterminateSystems/nix-installer-action@e50d5f73bfe71c2dd0aa4218de8f4afa59f8f81d # v16
-      # Don't add DeterminateSystems/magic-nix-cache-action in this workflow. Caching is not reasonable for this use
 
       - name: Outputs nix version and the config
         run: |
           nix --version
           nix config show
 
-      # TODO: Prefer nixpkgs version of nixpkgs-review since updated to https://github.com/Mic92/nixpkgs-review/commit/055465e55d131ffb1e1617f46d3bade0b87bbe69 or higher
       - name: Run latest nixpkgs-review
         env:
           # https://github.com/Mic92/nixpkgs-review/blob/055465e55d131ffb1e1617f46d3bade0b87bbe69/README.md?plain=1#L239-L260
@@ -65,55 +64,5 @@ jobs:
         uses: actions/upload-artifact@6f51ac03b9356f520e9adb1b1b7802705f340c2b # v4.5.0
         with:
           name: "nixpkgs-review-DeterminateSystems-files-pr-${{ inputs.pr-number }}-${{ runner.arch }}-${{ runner.os }}"
-          path: "${{ steps.get-meta.outputs.cache_dir }}/nixpkgs-review/"
-          if-no-files-found: "error"
-
-  # Debug https://github.com/NixOS/nixpkgs/pull/361460#discussion_r1896540669
-  review-with-cachix:
-    strategy:
-      fail-fast: false
-      matrix:
-        runner:
-          - ubuntu-24.04 # x86_64
-    # Add ARM based Linux runner if available in free plan
-    # https://github.blog/news-insights/product-news/arm64-on-github-actions-powering-faster-more-efficient-build-systems/
-    # - macos-15 # aarch64
-    # - macos-13 # x86_64
-    runs-on: ${{ matrix.runner }}
-    # timeout-minutes: 180 # Any limitations might not fit for this repository. So temporary disabling
-    steps:
-      - name: Make sure dependent environments
-        id: get-meta
-        run: | # shell
-          #
-          # https://github.com/Mic92/nixpkgs-review/blob/055465e55d131ffb1e1617f46d3bade0b87bbe69/nixpkgs_review/builddir.py#L24-L36
-          echo "cache_dir=${XDG_CACHE_HOME:-${HOME}/.cache}" | tee -a "$GITHUB_OUTPUT"
-
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
-        with:
-          repository: "NixOS/nixpkgs"
-          persist-credentials: false
-
-      - uses: cachix/install-nix-action@08dcb3a5e62fa31e2da3d490afc4176ef55ecd72 # v30
-
-      - name: Outputs nix version and the config
-        run: |
-          nix --version
-          nix config show
-
-      # TODO: Prefer nixpkgs version of nixpkgs-review since updated to https://github.com/Mic92/nixpkgs-review/commit/055465e55d131ffb1e1617f46d3bade0b87bbe69 or higher
-      - name: Run latest nixpkgs-review
-        env:
-          # https://github.com/Mic92/nixpkgs-review/blob/055465e55d131ffb1e1617f46d3bade0b87bbe69/README.md?plain=1#L239-L260
-          GITHUB_TOKEN: "${{ github.token }}"
-          PR_NUMBER: "${{ inputs.pr-number }}"
-        run: | # shell
-          #
-          nix run 'nixpkgs#nixpkgs-review' -- pr "${PR_NUMBER}" --print-result
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@6f51ac03b9356f520e9adb1b1b7802705f340c2b # v4.5.0
-        with:
-          name: "nixpkgs-review-cachix-files-pr-${{ inputs.pr-number }}-${{ runner.arch }}-${{ runner.os }}"
           path: "${{ steps.get-meta.outputs.cache_dir }}/nixpkgs-review/"
           if-no-files-found: "error"
