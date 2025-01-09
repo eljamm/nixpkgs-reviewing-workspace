@@ -6,4 +6,4 @@ pr_number="$1"
 
 gh workflow run 'nixpkgs-review.yml' --field pr-number="$pr_number"
 
-exec ./watch.bash
+exec ./watch.bash "$pr_number"

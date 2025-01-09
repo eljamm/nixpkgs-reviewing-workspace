@@ -2,6 +2,7 @@
 
 set -euxo pipefail
 
+pr_number="$1"
 output_dir="$(mktemp --directory)"
 
 sleep 10 # NOTE: to ensure that the correct ID is fetched
@@ -13,9 +14,4 @@ gh run download "$run_id" --dir "$output_dir"
 
 echo "Downloaded the files in $output_dir"
 
-tree "$output_dir"
-
-fd --absolute-path . "$output_dir"
-
-# TODO: Trim excess headers and sort the results
-fd --absolute-path report.md "$output_dir" | xargs cat
+exec ./report.bash "$pr_number" "$output_dir"
