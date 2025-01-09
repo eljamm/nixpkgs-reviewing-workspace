@@ -44,7 +44,7 @@ jobs:
           path: nixpkgs
           persist-credentials: false
 
-      - uses: DeterminateSystems/nix-installer-action@e50d5f73bfe71c2dd0aa4218de8f4afa59f8f81d # v16
+      - uses: nixbuild/nix-quick-install-action@v29
 
       - name: Outputs nix version and the config
         run: |
