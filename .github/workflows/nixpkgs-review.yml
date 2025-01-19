@@ -8,6 +8,8 @@ on:
         required: true
         type: number
 
+permissions: {}
+
 # WARN: Caching packages might not be reasonable for this usecase
 jobs:
   nixpkgs-review:

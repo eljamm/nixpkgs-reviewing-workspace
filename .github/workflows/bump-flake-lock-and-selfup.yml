@@ -10,6 +10,8 @@ on:
     - cron: "17 1 1 * 1"
   workflow_dispatch:
 
+permissions: {}
+
 jobs:
   bump:
     uses: kachick/selfup/.github/workflows/reusable-bump-flake-lock-and-selfup.yml@v1.1.8
