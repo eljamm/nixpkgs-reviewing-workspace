@@ -18,8 +18,7 @@ jobs:
       matrix:
         runner:
           - ubuntu-24.04 # x86_64
-          # Add ARM based Linux runner if available in free plan
-          # https://github.blog/news-insights/product-news/arm64-on-github-actions-powering-faster-more-efficient-build-systems/
+          - ubuntu-24.04-arm # aarch64
           - macos-15 # aarch64
           - macos-13 # x86_64
     runs-on: ${{ matrix.runner }}
@@ -46,7 +45,7 @@ jobs:
           path: nixpkgs
           persist-credentials: false
 
-      - uses: nixbuild/nix-quick-install-action@v29
+      - uses: DeterminateSystems/nix-installer-action@main
 
       - name: Outputs nix version and the config
         run: |

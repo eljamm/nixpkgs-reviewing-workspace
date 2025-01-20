@@ -10,7 +10,7 @@ tree "$output_dir"
 
 echo >"$report" # clear old report, if it exists
 
-for runner in X64-Linux X64-macOS ARM64-macOS; do
+for runner in X64-Linux ARM64-Linux X64-macOS ARM64-macOS; do
     runner_report=$(cat "$output_dir/nixpkgs-review-files-pr-$pr_number-$runner/pr-$pr_number/report.md")
 
     # The `nixpkgs-review` header is included with the first runner (X64-Linux)
